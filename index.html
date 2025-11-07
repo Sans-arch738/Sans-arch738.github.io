@@ -1,32 +1,93 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página Pessoal</title>
-    <style>
-         body {
-            background-image: url(Background.jpg);
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            flex-wrap: wrap;
-        }
-           h1, h2 {
-            color: white;
-            -webkit-text-stroke: 1px black;
-            font-size: 24px;
-            margin: 10px 0;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Samuel Juvino - Página Pessoal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #1e3a8a;
+      color: white;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    section {
+      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    img {
+      display: block;
+      margin: 1rem auto;
+      border-radius: 50%;
+      width: 150px;
+    }
+
+    h2 {
+      border-bottom: 2px solid #1e3a8a;
+      padding-bottom: 0.5rem;
+      margin-top: 2rem;
+    }
+
+    a {
+      color: #1e3a8a;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-    <h1>Samuel Juvino da Silva Júnior</h1>
-    <h2>Sou técnico de desenvalvimento de sistemas em fase de profissionalização por parte do instituto federal de alagoas</h2>
+
+  <header>
+    <h1>Samuel Juvino</h1>
+    <p>“Transformando ideias em código e aprendizado em progresso.”</p>
+  </header>
+
+  <section id="contato">
+    <h2>Contato</h2>
+    <p>Email: <a href="mailto:samuel@example.com">samuel@example.com</a></p>
+  </section>
+
+  <section id="foto">
+    <h2>Foto</h2>
+    <img src="myfoto.jpg" alt="Foto de Samuel Juvino">
+  </section>
+
+  <section id="educacao">
+    <h2>Educação</h2>
+    <p>Instituto Federal de Alagoas – Técnico em Informática (em andamento)</p>
+  </section>
+
+  <section id="experiencia">
+    <h2>Experiência Profissional</h2>
+    <ul>
+      <li>Desenvolvedor Júnior (projeto fictício) – Desenvolvimento de sites pessoais e institucionais.</li>
+      <li>Estágio em TI – Suporte técnico e manutenção de sistemas.</li>
+    </ul>
+  </section>
+
+  <section id="habilidades">
+    <h2>Habilidades</h2>
+    <ul>
+      <li>HTML, CSS e JavaScript</li>
+      <li>Git e GitHub</li>
+      <li>Python e lógica de programação</li>
+      <li>Design responsivo e boas práticas de código</li>
+    </ul>
+  </section>
+
 </body>
 </html>
