@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividade 05 - Formulário de Pré-Matrícula</title>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        
+        .janela {
+            width: 500px;
+            margin: 0 auto;
+            border: 2px solid #555;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+            background-color: white;
+        }
+
+        .janela-titulo {
+            background-color: #004085; /* Cor azul escura */
+            color: white;
+            padding: 5px 10px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .janela-conteudo {
+            padding: 15px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 0;
+            color: #333;
+        }
+
+        .secao {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .secao-titulo {
+            font-weight: bold;
+            background-color: #e9e9e9;
+            padding: 3px;
+            margin: -10px;
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: inline-block;
+            width: 150px; /* Alinhamento dos rótulos */
+            margin-bottom: 8px;
+        }
+
+        input[type="text"], input[type="email"], select {
+            padding: 5px;
+            border: 1px solid #aaa;
+            border-radius: 3px;
+        }
+
+        .data-nascimento input {
+            width: 30px;
+            text-align: center;
+        }
+
+        /* Área de Ação */
+        .area-botoes {
+            text-align: center;
+            padding-top: 10px;
+            border-top: 1px solid #ccc;
+        }
+        
+        button {
+            padding: 8px 15px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+        
+        .erro {
+            border: 2px solid red !important;
+        }
+        .mensagem-erro {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
+            display: none; /* Escondido por padrão */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="janela">
+        <div class="janela-titulo">
+            Formulários
+        </div>
+        <div class="janela-conteudo">
+            <h2>Escola Virtual</h2>
+            <h3>Formulário de Pré-Matrícula</h3>
+
+            <form id="formulario-pre-matricula" onsubmit="return validarFormulario()">
+                
+                <div class="secao">
+                    <div class="secao-titulo">Dados Pessoais</div>
+                    
+                    <label for="nome-aluno">Nome do Aluno:</label>
+                    <input type="text" id="nome-aluno" name="nome-aluno" required><br>
+                    <div id="erro-nome-aluno" class="mensagem-erro"></div>
+
+                    <label>Nascimento (dd/mm/aaaa):</label>
+                    <span class="data-nascimento">
+                        <input type="text" id="dia" size="2" maxlength="2" required> /
+                        <input type="text" id="mes" size="2" maxlength="2" required> /
+                        <input type="text" id="ano" size="4" maxlength="4" required>
+                    </span><br>
+                    <div id="erro-nascimento" class="mensagem-erro"></div>
+                    
+                    <label for="nome-mae">Nome da Mãe:</label>
+                    <input type="text" id="nome-mae" name="nome-mae" required><br>
+                    <div id="erro-nome-mae" class="mensagem-erro"></div>
+                    
+                    <label for="nome-pai">Nome do Pai:</label>
+                    <input type="text" id="nome-pai" name="nome-pai"><br>
+                    
+                    <label for="telefone">Telefone (DDD):</label>
+                    <input type="text" id="ddd" size="2" maxlength="3" required style="width: 40px;">
+                    <input type="text" id="telefone" size="9" maxlength="10" required style="width: 100px;"><br>
+                    <div id="erro-telefone" class="mensagem-erro"></div>
+
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" name="email" required><br>
+                    <div id="erro-email" class="mensagem-erro"></div>
+                </div>
+
+                <div class="secao">
+                    <div class="secao-titulo">Informações de Matrícula</div>
+
+                    <label for="serie">Série:</label>
+                    <select id="serie" name="serie" required>
+                        <option value="">Selecione</option>
+                        <option value="pre-escolar">Pré-escolar</option>
+                        <option value="fundamental-1">Fundamental I</option>
+                    </select><br>
+                    <div id="erro-serie" class="mensagem-erro"></div>
+                    
+                    <label>Turno:</label>
+                    <input type="radio" id="manha" name="turno" value="manha" required> <label for="manha" style="width: auto;">Manhã</label>
+                    <input type="radio" id="tarde" name="turno" value="tarde"> <label for="tarde" style="width: auto;">Tarde</label><br>
+                    <div id="erro-turno" class="mensagem-erro"></div>
+
+                    <label>Atividades Extracurriculares:</label>
+                    <span id="extracurriculares-group">
+                        <input type="checkbox" name="extra" value="musica"> Música
+                        <input type="checkbox" name="extra" value="ballet"> Ballet
+                        <input type="checkbox" name="extra" value="pintura"> Pintura
+                        <input type="checkbox" name="extra" value="futebol"> Futebol
+                    </span><br>
+                    <div id="erro-extra" class="mensagem-erro"></div>
+
+                </div>
+
+                <div class="area-botoes">
+                    <button type="submit">Enviar Formulário</button>
+                    <button type="reset" onclick="limparCampos()">Limpar Campos</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Lista de DDDs válidos no Brasil (exemplo simplificado)
+        const dddsValidos = [
+            '11', '12', '13', '14', '15', '16', '17', '18', '19', 
+            '21', '22', '24', '27', '28', 
+            '31', '32', '33', '34', '35', '37', '38', 
+            '41', '42', '43', '44', '45', '46', '47', '48', '49', 
+            '51', '53', '54', '55', 
+            '61', '62', '63', '64', '65', '66', '67', '68', '69', 
+            '71', '73', '74', '75', '77', '79', 
+            '81', '82', '83', '84', '85', '86', '87', '88', '89', 
+            '91', '92', '93', '94', '95', '96', '97', '98', '99'
+        ];
+
+        /**
+         * Função principal de validação chamada no submit do formulário.
+         * Retorna true se todos os campos forem válidos, e false caso contrário.
+         */
+        function validarFormulario() {
+            let isValid = true; // Flag geral de validação
+            
+            // Limpa todas as mensagens de erro antes de revalidar
+            document.querySelectorAll('.mensagem-erro').forEach(el => {
+                el.style.display = 'none';
+                el.innerHTML = '';
+            });
+            document.querySelectorAll('.erro').forEach(el => {
+                el.classList.remove('erro');
+            });
+
+            // 1. Validar Campos Obrigatórios (todos, exceto Nome do Pai e Extracurriculares)
+            isValid &= validarObrigatorio('nome-aluno', 'Nome do Aluno');
+            isValid &= validarObrigatorio('nome-mae', 'Nome da Mãe');
+            isValid &= validarObrigatorio('serie', 'Série');
+            
+            // 2. Validar Data de Nascimento
+            isValid &= validarDataNascimento();
+
+            // 3. Validar E-mail
+            isValid &= validarEmail();
+
+            // 4. Validar Telefone/DDD
+            isValid &= validarDDD();
+
+            // 5. Validar Turno (Obrigatório)
+            isValid &= validarTurno();
+
+            // 6. Validar Extracurriculares (Máximo 3)
+            // Se esta validação falhar, não impede o envio, mas alerta sobre a regra.
+            validarExtracurriculares(); 
+            
+            // ----------------------------------------------------
+            
+            if (isValid) {
+                alert("✅ Cadastro realizado com sucesso!");
+                // Retorna true para permitir o envio do formulário (se fosse para um servidor)
+                // Para este exercício, é bom retornar false para evitar o reload da página após o alert.
+                return false; 
+            } else {
+                alert("❌ Erro no formulário! Por favor, verifique os campos destacados.");
+                // Retorna false para impedir o envio e manter os erros visíveis
+                return false; 
+            }
+        }
+
+        /**
+         * Função auxiliar para validar campos de texto e select obrigatórios.
+         */
+        function validarObrigatorio(id, nomeCampo) {
+            const input = document.getElementById(id);
+            const erroDiv = document.getElementById(`erro-${id}`);
+            
+            if (!input.value.trim()) {
+                input.classList.add('erro');
+                erroDiv.innerHTML = `O campo ${nomeCampo} é obrigatório.`;
+                erroDiv.style.display = 'block';
+                return false;
+            }
+            return true;
+        }
+
+        /**
+         * Valida se a data é válida e se é uma data anterior (aceitar apenas datas passadas).
+         */
+        function validarDataNascimento() {
+            const dia = document.getElementById('dia');
+            const mes = document.getElementById('mes');
+            const ano = document.getElementById('ano');
+            const erroDiv = document.getElementById('erro-nascimento');
+
+            // Verifica se os campos estão preenchidos
+            if (!dia.value || !mes.value || !ano.value) {
+                [dia, mes, ano].forEach(el => el.classList.add('erro'));
+                erroDiv.innerHTML = 'A data de nascimento é obrigatória.';
+                erroDiv.style.display = 'block';
+                return false;
+            }
+            
+            const dataStr = `${ano.value}-${mes.value}-${dia.value}`;
+            const dataNasc = new Date(dataStr);
+            const hoje = new Date();
+            
+            // Checa se a data é válida (ex: 30/02/2023 é inválido)
+            if (isNaN(dataNasc) || dataNasc.getDate() != dia.value || dataNasc.getMonth() != (mes.value - 1) || dataNasc.getFullYear() != ano.value) {
+                [dia, mes, ano].forEach(el => el.classList.add('erro'));
+                erroDiv.innerHTML = 'Data inválida (ex: 30/02).';
+                erroDiv.style.display = 'block';
+                return false;
+            }
+
+            // Checa se a data é anterior ao dia atual (data passada)
+            // Adiciona 1 dia para evitar problemas de fuso horário na comparação (dataNasc < hoje)
+            hoje.setDate(hoje.getDate()); 
+            if (dataNasc >= hoje) {
+                [dia, mes, ano].forEach(el => el.classList.add('erro'));
+                erroDiv.innerHTML = 'A data deve ser anterior ao dia atual.';
+                erroDiv.style.display = 'block';
+                return false;
+            }
+            
+            return true;
+        }
+        
+        /**
+         * Valida o formato e a presença do '@' no e-mail.
+         */
+        function validarEmail() {
+            const emailInput = document.getElementById('email');
+            const erroDiv = document.getElementById('erro-email');
+            
+            // 1. Validação Obrigatória (já coberta em partes pelo 'required' no HTML, mas garantida aqui)
+            if (!emailInput.value.trim()) {
+                emailInput.classList.add('erro');
+                erroDiv.innerHTML = 'O E-mail é obrigatório.';
+                erroDiv.style.display = 'block';
+                return false;
+            }
+
+            // 2. Validação do '@'
+            if (!emailInput.value.includes('@')) {
+                emailInput.classList.add('erro');
+                erroDiv.innerHTML = 'E-mail precisa ter o caractere @.';
+                erroDiv.style.display = 'block';
+                return false;
+            }
+            
+            return true;
+        }
+
+        /**
+         * Valida se o DDD é válido no Brasil e se o telefone tem o preenchimento básico.
+         */
+        function validarDDD() {
+            const dddInput = document.getElementById('ddd');
+            const telInput = document.getElementById('telefone');
+            const erroDiv = document.getElementById('erro-telefone');
+
+            const ddd = dddInput.value.trim();
+            const telefone = telInput.value.trim();
+
+            if (!ddd || !telefone) {
+                 dddInput.classList.add('erro');
+                 telInput.classList.add('erro');
+                 erroDiv.innerHTML = 'DDD e Telefone são obrigatórios.';
+                 erroDiv.style.display = 'block';
+                 return false;
+            }
+
+            if (!dddsValidos.includes(ddd)) {
+                dddInput.classList.add('erro');
+                erroDiv.innerHTML = `DDD ${ddd} não é válido no Brasil.`;
+                erroDiv.style.display = 'block';
+                return false;
+            }
+
+            return true;
+        }
+
+        /**
+         * Valida se pelo menos um turno foi selecionado.
+         */
+        function validarTurno() {
+            const manha = document.getElementById('manha');
+            const tarde = document.getElementById('tarde');
+            const erroDiv = document.getElementById('erro-turno');
+
+            if (!manha.checked && !tarde.checked) {
+                erroDiv.innerHTML = 'Selecione um turno.';
+                erroDiv.style.display = 'block';
+                return false;
+            }
+            return true;
+        }
+
+        /**
+         * Valida se o número de Extracurriculares não excede 3.
+         */
+        function validarExtracurriculares() {
+            const checkboxes = document.querySelectorAll('input[name="extra"]:checked');
+            const erroDiv = document.getElementById('erro-extra');
+            
+            if (checkboxes.length > 3) {
+                erroDiv.innerHTML = 'Só é permitido selecionar no máximo 3 atividades extracurriculares.';
+                erroDiv.style.display = 'block';
+                return false;
+            }
+            // Não impede o envio, apenas informa sobre a regra
+            return true;
+        }
+
+        /**
+         * Função de limpeza adicional (chamada no botão "Limpar Campos").
+         */
+        function limparCampos() {
+            // Limpa o formulário nativamente
+            document.getElementById('formulario-pre-matricula').reset();
+            
+            // Limpa as classes de erro e mensagens de erro
+            document.querySelectorAll('.mensagem-erro').forEach(el => {
+                el.style.display = 'none';
+                el.innerHTML = '';
+            });
+            document.querySelectorAll('.erro').forEach(el => {
+                el.classList.remove('erro');
+            });
+        }
+    </script>
+</body>
+</html>
