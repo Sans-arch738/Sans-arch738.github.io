@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividade 06 - Gestão de Gastos</title>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+
+        h1, h3 {
+            color: #333;
+        }
+
+        /* Contêiner principal para alinhar os blocos */
+        .container {
+            display: flex;
+            flex-wrap: wrap; /* Permite quebrar linha em telas menores */
+            gap: 20px;
+        }
+
+        #entrada-gastos, #extrato-bancario, #resumo {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: white;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Alinhamento dos blocos conforme a imagem */
+        #entrada-gastos {
+            flex-basis: 300px; /* Largura base para a entrada */
+        }
+
+        #extrato-bancario {
+            flex-grow: 1; /* Permite que a tabela cresça */
+            max-width: 400px;
+        }
+
+        #resumo {
+            flex-basis: 300px;
+            border: 2px solid #007bff; /* Destaca o bloco de resumo */
+            background-color: #e9f5ff;
+        }
+        
+        /* Estilização dos campos de input */
+        #entrada-gastos label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        #entrada-gastos input, #entrada-gastos select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        /* Estilização dos botões */
+        #entrada-gastos button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        button:first-of-type { /* Botão Adicionar */
+            background-color: #28a745;
+            color: white;
+        }
+
+        button:last-of-type { /* Botão Calcular */
+            background-color: #007bff;
+            color: white;
+            margin-left: 10px;
+        }
+
+        /* Estilização da Tabela */
+        #tabela-gastos {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        #tabela-gastos th, #tabela-gastos td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        #tabela-gastos th {
+            background-color: #f2f2f2;
+        }
+        
+        /* Estilização do Resumo */
+        #resumo p {
+            margin: 5px 0;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Atividade 06</h1>
+    <p>Faça duas páginas similares às apresentadas abaixo.</p>
+
+    <div class="container">
+        
+        <div id="entrada-gastos">
+            <h3>Entrada de Dados</h3>
+            <label for="categoria">Categoria:</label>
+            <select id="categoria">
+                <option value="Mercado">Mercado</option>
+                <option value="Transporte">Transporte</option>
+                <option value="Outros">Outros</option>
+            </select>
+
+            <label for="valor">Valor:</label>
+            <input type="number" id="valor" step="0.01" value="0.00">
+
+            <label for="data">Data:</label>
+            <input type="date" id="data">
+            
+            <button onclick="adicionarGasto()">Adicionar</button>
+            <button onclick="calcularResumo()">Calcular</button>
+        </div>
+
+        <div id="extrato-bancario">
+            <h3>Extrato Bancário</h3>
+            <table id="tabela-gastos">
+                <thead>
+                    <tr>
+                        <th>Categoria</th>
+                        <th>Data</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div id="resumo">
+        <h3>Resumo</h3>
+        <p>Total: <span id="total-geral">0,00</span></p>
+        <p>Total no Mês 03: <span id="total-mes-03">0,00</span></p>
+        <p>Total no Mês 04: <span id="total-mes-04">0,00</span></p>
+        <div id="resumo-categorias"></div>
+    </div>
+
+    <script>
+        // Array para armazenar todos os gastos
+        let gastos = [];
+
+        /**
+         * Adiciona um novo gasto à tabela e ao array de dados.
+         */
+        function adicionarGasto() {
+            // 1. Obter valores do formulário
+            const categoriaInput = document.getElementById('categoria');
+            const valorInput = document.getElementById('valor');
+            const dataInput = document.getElementById('data');
+
+            const categoria = categoriaInput.value;
+            // O valor é convertido para um número de ponto flutuante (float)
+            const valor = parseFloat(valorInput.value);
+            const data = dataInput.value; // Formato YYYY-MM-DD
+
+            // Validação básica
+            if (isNaN(valor) || valor <= 0 || !data) {
+                alert("Por favor, insira um valor válido e uma data.");
+                return;
+            }
+
+            // 2. Criar o objeto de gasto
+            const novoGasto = {
+                categoria: categoria,
+                valor: valor,
+                data: data
+            };
+
+            // 3. Adicionar ao array de gastos
+            gastos.push(novoGasto);
+
+            // 4. Adicionar linha à tabela HTML
+            const tabelaBody = document.querySelector('#tabela-gastos tbody');
+            const novaLinha = tabelaBody.insertRow();
+
+            // Formata a data de YYYY-MM-DD para DD/MM/YYYY
+            const dataFormatada = new Date(novoGasto.data + 'T00:00:00').toLocaleDateString('pt-BR');
+            
+            // Formata o valor como moeda brasileira (opcional)
+            const valorFormatado = novoGasto.valor.toFixed(2).replace('.', ',');
+
+            novaLinha.insertCell(0).textContent = novoGasto.categoria;
+            novaLinha.insertCell(1).textContent = dataFormatada;
+            novaLinha.insertCell(2).textContent = valorFormatado;
+
+            // 5. Limpar os campos do formulário para a próxima entrada
+            valorInput.value = '0.00';
+            dataInput.value = '';
+        }
+
+        /**
+         * Analisa o array de gastos e atualiza o bloco de resumo.
+         */
+        function calcularResumo() {
+            let totalGeral = 0;
+            let totalMes03 = 0;
+            let totalMes04 = 0;
+            let resumoPorCategoria = {};
+
+            // Função auxiliar para formatar como moeda (ex: 136,20)
+            const formatarValor = (valor) => valor.toFixed(2).replace('.', ',');
+
+            // 1. Iterar sobre todos os gastos para fazer os cálculos
+            gastos.forEach(gasto => {
+                // Obter o mês (posição 5 e 6 da string YYYY-MM-DD)
+                const mes = gasto.data.substring(5, 7);
+                const valor = gasto.valor;
+
+                // Total Geral
+                totalGeral += valor;
+
+                // Total por Mês
+                if (mes === '03') {
+                    totalMes03 += valor;
+                } else if (mes === '04') {
+                    totalMes04 += valor;
+                }
+
+                // Total por Categoria
+                if (resumoPorCategoria[gasto.categoria]) {
+                    resumoPorCategoria[gasto.categoria] += valor;
+                } else {
+                    resumoPorCategoria[gasto.categoria] = valor;
+                }
+            });
+
+            // 2. Atualizar o HTML com os resultados dos totais
+            document.getElementById('total-geral').textContent = formatarValor(totalGeral);
+            document.getElementById('total-mes-03').textContent = formatarValor(totalMes03);
+            document.getElementById('total-mes-04').textContent = formatarValor(totalMes04);
+
+            // 3. Gerar e exibir o resumo por categoria dinamicamente
+            const resumoCategoriasDiv = document.getElementById('resumo-categorias');
+            resumoCategoriasDiv.innerHTML = ''; // Limpar o conteúdo anterior
+
+            for (const categoria in resumoPorCategoria) {
+                const totalCategoria = resumoPorCategoria[categoria];
+                const p = document.createElement('p');
+                p.textContent = `Total de gastos com ${categoria}: ${formatarValor(totalCategoria)}`;
+                resumoCategoriasDiv.appendChild(p);
+            }
+        }
+    </script>
+</body>
+</html>
